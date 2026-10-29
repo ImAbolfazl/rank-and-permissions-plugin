@@ -116,6 +116,11 @@ public class RankCommand implements CommandExecutor {
             }
 
             try{
+                Player target = Bukkit.getPlayer(args[1]);
+                if(target == null){
+                    player.sendMessage("player is not online!");
+                    return true;
+                }
                 UUID uuid = Bukkit.getPlayer(args[1]).getUniqueId();
                 String prefix = plugin.getRankManager().getPrefix(args[2]);
                 if(prefix == null){
@@ -142,6 +147,11 @@ public class RankCommand implements CommandExecutor {
             }
 
             try{
+                Player target = Bukkit.getPlayer(args[1]);
+                if(target == null){
+                    player.sendMessage("player is not online!");
+                    return true;
+                }
                 UUID uuid = Bukkit.getPlayer(args[1]).getUniqueId();
                 boolean removed = plugin.getRankManager().removeRank(uuid.toString());
 
