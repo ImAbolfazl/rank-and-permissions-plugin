@@ -1,0 +1,7 @@
+name: RanksAndPermissions
+version: '${project.version}'
+main: mc.daddyabolfazl.ranksandpermissions.RanksAndPermission
+commands:
+  rank:
+    description: manage server ranks.
+    usage: /rank
