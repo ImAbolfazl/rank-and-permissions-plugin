@@ -2,6 +2,7 @@
 package mc.daddyabolfazl.ranksandpermissions;
 
 import mc.daddyabolfazl.ranksandpermissions.commands.RankCommand;
+import mc.daddyabolfazl.ranksandpermissions.listeners.ChatListener;
 import mc.daddyabolfazl.ranksandpermissions.listeners.JoinListener;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.sql.SQLException;
@@ -31,6 +32,7 @@ public final class RanksAndPermission extends JavaPlugin {
         rankManager = new RankManager(databaseManager);
         getCommand("rank").setExecutor(new RankCommand(this));
         getServer().getPluginManager().registerEvents(new JoinListener(this), this);
+        getServer().getPluginManager().registerEvents(new ChatListener(this), this);
         System.out.println("Ranks and Permissions have been enabled!");
     }
 

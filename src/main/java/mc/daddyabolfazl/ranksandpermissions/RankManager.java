@@ -15,9 +15,7 @@ public class RankManager {
     }
 
     public boolean createRank(String name, String prefix) throws SQLException {
-        String stmt = "INSERT INTO ranks (name, prefix) VALUES (?, ?)";
-
-        try(PreparedStatement statement = databaseManager.getConnection().prepareStatement(stmt)){
+        try(PreparedStatement statement = databaseManager.getConnection().prepareStatement("INSERT INTO ranks (name, prefix) VALUES (?, ?)")){
             statement.setString(1, name);
             statement.setString(2, prefix);
 
@@ -26,9 +24,12 @@ public class RankManager {
     }
 
     public boolean deleteRank(String name) throws SQLException {
-        String stmt = "DELETE FROM ranks WHERE name = ?";
+        try(PreparedStatement statement = databaseManager.getConnection().prepareStatement("DELETE FROM player_ranks WHERE rank = ?")) {
+            statement.setString(1, name);
+            statement.executeUpdate();
+        }
 
-        try(PreparedStatement statement = databaseManager.getConnection().prepareStatement(stmt)){
+        try(PreparedStatement statement = databaseManager.getConnection().prepareStatement("DELETE FROM ranks WHERE name = ?")){
             statement.setString(1, name);
 
             return statement.executeUpdate() > 0;
@@ -36,9 +37,7 @@ public class RankManager {
     }
 
     public boolean updatePrefix(String name, String prefix) throws SQLException {
-        String stmt = "UPDATE ranks SET prefix = ? WHERE name = ?";
-
-        try(PreparedStatement statement = databaseManager.getConnection().prepareStatement(stmt)){
+        try(PreparedStatement statement = databaseManager.getConnection().prepareStatement("UPDATE ranks SET prefix = ? WHERE name = ?")){
             statement.setString(1, prefix);
             statement.setString(2, name);
 
@@ -47,9 +46,7 @@ public class RankManager {
     }
 
     public String getPrefix(String name) throws SQLException {
-        String stmt = "SELECT * FROM ranks WHERE name = ?";
-
-        try(PreparedStatement statement = databaseManager.getConnection().prepareStatement(stmt)){
+        try(PreparedStatement statement = databaseManager.getConnection().prepareStatement("SELECT * FROM ranks WHERE name = ?")){
             statement.setString(1, name);
 
             try (ResultSet result = statement.executeQuery()) {
@@ -59,9 +56,7 @@ public class RankManager {
     }
 
     public boolean addRank(String uuid, String rank) throws SQLException {
-        String stmt = "INSERT INTO player_ranks (uuid, rank) VALUES (?, ?)";
-
-        try(PreparedStatement statement = databaseManager.getConnection().prepareStatement(stmt)){
+        try(PreparedStatement statement = databaseManager.getConnection().prepareStatement("INSERT INTO player_ranks (uuid, rank) VALUES (?, ?)")){
             statement.setString(1, uuid);
             statement.setString(2, rank);
 
@@ -70,9 +65,7 @@ public class RankManager {
     }
 
     public boolean removeRank(String uuid) throws SQLException {
-        String stmt = "DELETE FROM player_ranks WHERE uuid = ?";
-
-        try(PreparedStatement statement = databaseManager.getConnection().prepareStatement(stmt)){
+        try(PreparedStatement statement = databaseManager.getConnection().prepareStatement("DELETE FROM player_ranks WHERE uuid = ?")){
             statement.setString(1, uuid);
 
             return statement.executeUpdate() > 0;
@@ -84,9 +77,7 @@ public class RankManager {
             statement.executeUpdate();
         }
 
-        String stmt = "UPDATE player_ranks SET isDefault = TRUE WHERE name = ?";
-
-        try(PreparedStatement statement = databaseManager.getConnection().prepareStatement(stmt)){
+        try(PreparedStatement statement = databaseManager.getConnection().prepareStatement( "UPDATE player_ranks SET isDefault = TRUE WHERE name = ?")){
             statement.setString(1, name);
 
             return statement.executeUpdate() > 0;
@@ -102,9 +93,7 @@ public class RankManager {
     }
 
     public String getRank(String uuid) throws SQLException {
-        String stmt = "SELECT rank FROM player_ranks WHERE uuid = ?";
-
-        try(PreparedStatement statement = databaseManager.getConnection().prepareStatement(stmt)){
+        try(PreparedStatement statement = databaseManager.getConnection().prepareStatement("SELECT rank FROM player_ranks WHERE uuid = ?")){
             statement.setString(1, uuid);
 
             try (ResultSet result = statement.executeQuery()) {

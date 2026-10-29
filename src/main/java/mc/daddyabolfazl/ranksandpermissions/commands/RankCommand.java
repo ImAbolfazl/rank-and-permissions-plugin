@@ -59,7 +59,7 @@ public class RankCommand implements CommandExecutor {
                 boolean created = plugin.getRankManager().createRank(args[1], args[2]);
 
                 if(created){
-                    player.sendMessage("created successfully " + args[2]);
+                    player.sendMessage("successfully created " + args[2]);
                 }else{
                     player.sendMessage("rank creation failed!");
                 }
@@ -131,6 +131,7 @@ public class RankCommand implements CommandExecutor {
 
                 if(added){
                     player.sendMessage("added " + args[2] + " to " + Bukkit.getPlayer(args[1]).getName());
+                    plugin.prefixCache.put(uuid.toString(), prefix);
                 }else{
                     player.sendMessage("failed to add the rank to the database!");
                 }
@@ -157,6 +158,8 @@ public class RankCommand implements CommandExecutor {
 
                 if(removed){
                     player.sendMessage("removed " + Bukkit.getPlayer(args[1]).getName() + "'s rank!");
+                    plugin.prefixCache.remove(uuid.toString());
+                    plugin.prefixCache.put(uuid.toString(), plugin.getRankManager().getDefaultRank());
                 }else{
                     player.sendMessage("failed to remove the rank from the database!");
                 }
