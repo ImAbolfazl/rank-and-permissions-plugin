@@ -55,4 +55,8 @@ public final class RanksAndPermission extends JavaPlugin {
     public RankManager getRankManager() {
         return rankManager;
     }
+
+    public String getPrefix(String uuid){
+        return prefixCache.get(uuid);
+    }
 }
