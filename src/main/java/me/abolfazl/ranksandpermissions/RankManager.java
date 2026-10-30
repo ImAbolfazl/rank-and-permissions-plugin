@@ -15,7 +15,7 @@ public class RankManager {
 
     public boolean createRank(String name, String prefix) throws SQLException {
         try(PreparedStatement statement = databaseManager.getConnection().prepareStatement("INSERT INTO ranks (name, prefix) VALUES (?, ?)")){
-            statement.setString(1, name);
+            statement.setString(1, name.toLowerCase());
             statement.setString(2, prefix);
 
             return statement.executeUpdate() > 0;
@@ -24,12 +24,12 @@ public class RankManager {
 
     public boolean deleteRank(String name) throws SQLException {
         try(PreparedStatement statement = databaseManager.getConnection().prepareStatement("DELETE FROM player_ranks WHERE rank = ?")) {
-            statement.setString(1, name);
+            statement.setString(1, name.toLowerCase());
             statement.executeUpdate();
         }
 
         try(PreparedStatement statement = databaseManager.getConnection().prepareStatement("DELETE FROM ranks WHERE name = ?")){
-            statement.setString(1, name);
+            statement.setString(1, name.toLowerCase());
 
             return statement.executeUpdate() > 0;
         }
@@ -38,7 +38,7 @@ public class RankManager {
     public boolean updatePrefix(String name, String prefix) throws SQLException {
         try(PreparedStatement statement = databaseManager.getConnection().prepareStatement("UPDATE ranks SET prefix = ? WHERE name = ?")){
             statement.setString(1, prefix);
-            statement.setString(2, name);
+            statement.setString(2, name.toLowerCase());
 
             return statement.executeUpdate() > 0;
         }
@@ -46,7 +46,7 @@ public class RankManager {
 
     public String getPrefix(String name) throws SQLException {
         try(PreparedStatement statement = databaseManager.getConnection().prepareStatement("SELECT * FROM ranks WHERE name = ?")){
-            statement.setString(1, name);
+            statement.setString(1, name.toLowerCase());
 
             try (ResultSet result = statement.executeQuery()) {
                 return result.next() ? result.getString("prefix") : null;
@@ -61,7 +61,7 @@ public class RankManager {
         }
         try(PreparedStatement statement = databaseManager.getConnection().prepareStatement("INSERT INTO player_ranks (uuid, rank) VALUES (?, ?)")){
             statement.setString(1, uuid);
-            statement.setString(2, rank);
+            statement.setString(2, rank.toLowerCase());
 
             return statement.executeUpdate() > 0;
         }
@@ -81,7 +81,7 @@ public class RankManager {
         }
 
         try(PreparedStatement statement = databaseManager.getConnection().prepareStatement( "UPDATE ranks SET isDefault = 1 WHERE name = ?")){
-            statement.setString(1, name);
+            statement.setString(1, name.toLowerCase());
 
             return statement.executeUpdate() > 0;
         }

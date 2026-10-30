@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.UUID;
 
 public class RankCommand implements CommandExecutor {
@@ -34,7 +35,10 @@ public class RankCommand implements CommandExecutor {
                     "/rank update <name> <new prefix>",
                     "/rank add <player> <rank>",
                     "/rank remove <player>",
-                    "/rank default <rank>"
+                    "/rank default <rank>",
+                    "/rank permission list",
+                    "/rank permission add <rank> <permission>",
+                    "/rank permission delete <rank> <permission>"
             });
             return true;
         }
@@ -192,6 +196,87 @@ public class RankCommand implements CommandExecutor {
             }catch(SQLException e){
                 player.sendMessage("something went wrong!");
                 System.out.println(e.getMessage());
+            }
+        }
+
+        if(args[0].equalsIgnoreCase("permission")){
+            if(args.length == 1){
+                player.sendMessage(new String[]{
+                    "/rank permission list",
+                    "/rank permission add <rank> <permission>",
+                    "/rank permission delete <rank> <permission>"
+                });
+                return true;
+            }
+
+            if(args[1].equalsIgnoreCase("list")){
+                player.sendMessage(plugin.permissions);
+                return true;
+            }else if(args[1].equalsIgnoreCase("add")){
+                if(args.length > 4){
+                    player.sendMessage("/rank permission add <rank> <permission>");
+                    return true;
+                }
+                if (!Arrays.asList(plugin.permissions).contains(args[3].toLowerCase())) {
+                    player.sendMessage(new String[]{
+                        args[3] + " is not a valid permission!",
+                        "use /rank permission list"
+                    });
+                    return true;
+                }
+                try{
+                    if(plugin.getRankManager().getPrefix(args[2].toLowerCase()) == null){
+                        player.sendMessage(args[2] + " is not a valid rank!");
+                    }
+
+                    System.out.println("args[2]:" + args[2]);
+                    System.out.println("args[3]:" + args[3]);
+                    boolean added = plugin.getPermissionManager().addPermission(args[2].toLowerCase(), args[3].toLowerCase());
+
+                    if(added){
+                        player.sendMessage("permissions set!");
+                    }else{
+                        player.sendMessage("failed to set the permission in the database!");
+                    }
+                }catch(SQLException e){
+                    player.sendMessage("something went wrong!");
+                    System.out.println(e.getMessage());
+                }
+            }else if(args[1].equalsIgnoreCase("delete")){
+                if(args.length > 4){
+                    player.sendMessage("/rank permission delete <rank> <permission>");
+                    return true;
+                }
+                if (!Arrays.asList(plugin.permissions).contains(args[3].toLowerCase())) {
+                    player.sendMessage(new String[]{
+                        args[3] + " is not a valid permission!",
+                        "use /rank permission list"
+                    });
+                    return true;
+                }
+                try{
+                    if(plugin.getRankManager().getPrefix(args[2].toLowerCase()) == null){
+                        player.sendMessage(args[2] + " is not a valid rank!");
+                    }
+
+                    boolean deleted = plugin.getPermissionManager().addPermission(args[2].toLowerCase(), args[3].toLowerCase());
+
+                    if(deleted){
+                        player.sendMessage("permissions deleted!");
+                    }else{
+                        player.sendMessage("failed to delete the permission from the database!");
+                    }
+                }catch(SQLException e){
+                    player.sendMessage("something went wrong!");
+                    System.out.println(e.getMessage());
+                }
+            }else{
+                player.sendMessage(new String[]{
+                    "/rank permission list",
+                    "/rank permission add <rank> <permission>",
+                    "/rank permission delete <rank> <permission>"
+                });
+                return true;
             }
         }
 

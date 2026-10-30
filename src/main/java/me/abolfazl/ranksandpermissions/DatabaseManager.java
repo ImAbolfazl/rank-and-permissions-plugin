@@ -33,9 +33,13 @@ public class DatabaseManager {
             );
             statement.executeUpdate(
                     "CREATE TABLE IF NOT EXISTS ranks (" +
-                            "name TEXT PRIMARY KEY, " +
+                            "name TEXT, " +
                             "prefix TEXT NOT NULL, " +
                             "isDefault BOOLEAN DEFAULT 0)");
+            statement.executeUpdate(
+                    "CREATE TABLE IF NOT EXISTS permissions (" +
+                            "rank TEXT NOT NULL, " +
+                            "permission TEXT NOT NULL)");
         }
     }
 

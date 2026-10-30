@@ -12,8 +12,15 @@ public final class RanksAndPermissions extends JavaPlugin {
 
     private DatabaseManager databaseManager;
     private RankManager rankManager;
+    private PermissionManager permissionManager;
 
     public HashMap<String, String> prefixCache =  new HashMap<>();
+
+    public String[] permissions = {
+        "fly",
+        "gamemode",
+        "vanish"
+    };
 
     @Override
     public void onEnable() {
@@ -30,6 +37,7 @@ public final class RanksAndPermissions extends JavaPlugin {
         }
 
         rankManager = new RankManager(databaseManager);
+        permissionManager = new PermissionManager(databaseManager);
         getCommand("rank").setExecutor(new RankCommand(this));
         getServer().getPluginManager().registerEvents(new JoinListener(this), this);
         getServer().getPluginManager().registerEvents(new ChatListener(this), this);
@@ -56,8 +64,21 @@ public final class RanksAndPermissions extends JavaPlugin {
         return rankManager;
     }
 
+    public PermissionManager getPermissionManager(){
+        return permissionManager;
+    }
+
     public String getPrefix(String uuid){
-        System.out.println(prefixCache);
         return prefixCache.get(uuid);
+    }
+
+    public boolean hasPermission(String uuid, String permission){
+        try{
+            String rank = rankManager.getRank(uuid);
+            return permissionManager.hasPermission(rank, permission);
+        }catch(SQLException e){
+            System.out.println(e);
+            return false;
+        }
     }
 }
