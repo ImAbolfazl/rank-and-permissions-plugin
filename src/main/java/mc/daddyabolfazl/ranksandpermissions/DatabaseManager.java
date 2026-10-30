@@ -35,7 +35,7 @@ public class DatabaseManager {
                     "CREATE TABLE IF NOT EXISTS ranks (" +
                             "name TEXT PRIMARY KEY, " +
                             "prefix TEXT NOT NULL, " +
-                            "isDefault BOOLEAN DEFAULT FALSE)");
+                            "isDefault BOOLEAN DEFAULT 0)");
         }
     }
 

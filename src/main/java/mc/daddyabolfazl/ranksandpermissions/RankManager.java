@@ -56,6 +56,10 @@ public class RankManager {
     }
 
     public boolean addRank(String uuid, String rank) throws SQLException {
+        try(PreparedStatement statement = databaseManager.getConnection().prepareStatement("DELETE FROM player_ranks WHERE uuid = ?")){
+            statement.setString(1, uuid);
+            statement.executeUpdate();
+        }
         try(PreparedStatement statement = databaseManager.getConnection().prepareStatement("INSERT INTO player_ranks (uuid, rank) VALUES (?, ?)")){
             statement.setString(1, uuid);
             statement.setString(2, rank);
@@ -73,11 +77,11 @@ public class RankManager {
     }
 
     public boolean setDefaultRank(String name) throws SQLException {
-        try(PreparedStatement statement = databaseManager.getConnection().prepareStatement("UPDATE ranks SET isDefault = FALSE")){
+        try(PreparedStatement statement = databaseManager.getConnection().prepareStatement("UPDATE ranks SET isDefault = 0")){
             statement.executeUpdate();
         }
 
-        try(PreparedStatement statement = databaseManager.getConnection().prepareStatement( "UPDATE player_ranks SET isDefault = TRUE WHERE name = ?")){
+        try(PreparedStatement statement = databaseManager.getConnection().prepareStatement( "UPDATE ranks SET isDefault = 1 WHERE name = ?")){
             statement.setString(1, name);
 
             return statement.executeUpdate() > 0;
@@ -85,7 +89,7 @@ public class RankManager {
     }
 
     public String getDefaultRank() throws SQLException {
-        try(PreparedStatement statement = databaseManager.getConnection().prepareStatement("SELECT name FROM ranks WHERE isDefault = TRUE")){
+        try(PreparedStatement statement = databaseManager.getConnection().prepareStatement("SELECT name FROM ranks WHERE isDefault = 1")){
             try (ResultSet result = statement.executeQuery()) {
                 return result.next() ? result.getString("name") : null;
             }
