@@ -1,6 +1,6 @@
-package mc.daddyabolfazl.ranksandpermissions.listeners;
+package me.abolfazl.ranksandpermissions.listeners;
 
-import mc.daddyabolfazl.ranksandpermissions.RanksAndPermission;
+import me.abolfazl.ranksandpermissions.RanksAndPermissions;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -8,9 +8,9 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class ChatListener implements Listener {
 
-    private RanksAndPermission plugin;
+    private RanksAndPermissions plugin;
 
-    public ChatListener(RanksAndPermission plugin){
+    public ChatListener(RanksAndPermissions plugin){
         this.plugin = plugin;
     }
 
@@ -23,7 +23,7 @@ public class ChatListener implements Listener {
             prefix = "";
         }
 
-        String message = "&l" + prefix + " " + event.getPlayer().getName() + " &6» &f" + event.getMessage();
+        String message = prefix + " " + event.getPlayer().getName() + " &6» &f" + event.getMessage();
         event.setFormat(ChatColor.translateAlternateColorCodes('&', message));
     }
 }

@@ -1,14 +1,14 @@
 
-package mc.daddyabolfazl.ranksandpermissions;
+package me.abolfazl.ranksandpermissions;
 
-import mc.daddyabolfazl.ranksandpermissions.commands.RankCommand;
-import mc.daddyabolfazl.ranksandpermissions.listeners.ChatListener;
-import mc.daddyabolfazl.ranksandpermissions.listeners.JoinListener;
+import me.abolfazl.ranksandpermissions.commands.RankCommand;
+import me.abolfazl.ranksandpermissions.listeners.ChatListener;
+import me.abolfazl.ranksandpermissions.listeners.JoinListener;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-public final class RanksAndPermission extends JavaPlugin {
+public final class RanksAndPermissions extends JavaPlugin {
 
     private DatabaseManager databaseManager;
     private RankManager rankManager;
@@ -57,6 +57,7 @@ public final class RanksAndPermission extends JavaPlugin {
     }
 
     public String getPrefix(String uuid){
+        System.out.println(prefixCache);
         return prefixCache.get(uuid);
     }
 }

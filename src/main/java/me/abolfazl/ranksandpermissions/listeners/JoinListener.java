@@ -1,7 +1,8 @@
-package mc.daddyabolfazl.ranksandpermissions.listeners;
+package me.abolfazl.ranksandpermissions.listeners;
 
-import mc.daddyabolfazl.ranksandpermissions.RanksAndPermission;
+import me.abolfazl.ranksandpermissions.RanksAndPermissions;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -9,9 +10,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.sql.SQLException;
 
 public class JoinListener implements Listener {
-    private RanksAndPermission plugin;
+    private RanksAndPermissions plugin;
 
-    public JoinListener(RanksAndPermission plugin) {
+    public JoinListener(RanksAndPermissions plugin) {
         this.plugin = plugin;
     }
 
@@ -31,7 +32,7 @@ public class JoinListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onLeave(PlayerQuitEvent event) {
         String uuid = event.getPlayer().getUniqueId().toString();
         plugin.prefixCache.remove(uuid);

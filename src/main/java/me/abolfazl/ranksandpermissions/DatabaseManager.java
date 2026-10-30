@@ -1,5 +1,5 @@
 
-package mc.daddyabolfazl.ranksandpermissions;
+package me.abolfazl.ranksandpermissions;
 
 import org.bukkit.plugin.java.JavaPlugin;
 

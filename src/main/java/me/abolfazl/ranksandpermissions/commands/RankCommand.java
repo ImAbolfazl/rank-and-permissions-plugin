@@ -1,6 +1,6 @@
-package mc.daddyabolfazl.ranksandpermissions.commands;
+package me.abolfazl.ranksandpermissions.commands;
 
-import mc.daddyabolfazl.ranksandpermissions.RanksAndPermission;
+import me.abolfazl.ranksandpermissions.RanksAndPermissions;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,9 +12,9 @@ import java.util.UUID;
 
 public class RankCommand implements CommandExecutor {
 
-    private RanksAndPermission plugin;
+    private RanksAndPermissions plugin;
 
-    public RankCommand(RanksAndPermission plugin) {
+    public RankCommand(RanksAndPermissions plugin) {
         this.plugin = plugin;
     }
 
